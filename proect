@@ -1,0 +1,10 @@
+#!/bin/bash
+threshold = 5 # Пороговое значение LA
+email="pochta@example.ru" #Адрес получателя сообщения
+while true; do 
+  la=$(cat /proc/loadavg | awk '{print $1}') #Получаем значение LA
+  if (( $(echo "$la > $threshold" | bc -l) )); then #Сравниваем LA с пороговым значением
+    echo "Внимание! LA превышает пороговое значение: $la" | mail -s "Предупреждение о LA" $email # Отправление сообщения по почту
+  fi
+  sleep 10 
+done
